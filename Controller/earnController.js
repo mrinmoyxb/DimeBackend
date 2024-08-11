@@ -13,7 +13,7 @@ async function handlePostUserEarning(req, res){
     }
 }
 
-async function handleGetUserEarning(){
+async function handleGetUserEarning(req, res){
     try{
         const allTransactions = await Earn.find()
         if(!allTransactions){

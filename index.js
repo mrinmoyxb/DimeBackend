@@ -6,6 +6,7 @@ const {connectMongoDB} = require("./connection")
 
 // Routers
 const spendRouter = require("./Routers/spendRouter")
+const earnRouter = require("./Routers/earnRouter")
 
 require('dotenv').config()
 const app = express()
@@ -17,7 +18,7 @@ connectMongoDB()
 
 app.use(express.urlencoded({extended: false}))
 app.use("/api", spendRouter)
-//app.use("/api")
+app.use("/api", earnRouter)
 
 const sslServer = https.createServer({
     key: fs.readFileSync(path.join(__dirname, "Certificate", "key.pem")),
