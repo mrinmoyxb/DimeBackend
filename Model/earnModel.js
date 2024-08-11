@@ -1,12 +1,12 @@
 const mongoose = require("mongoose")
 
 // Schema
-const spendSchema = new mongoose.Schema({
+const earnSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: true
     },
-    spendType: {
+    earnType: {
         type: String,
         required: true
     },
@@ -17,6 +17,6 @@ const spendSchema = new mongoose.Schema({
 })
 
 // Model
-const Spend = mongoose.model("spend", spendSchema)
+const Earn = mongoose.model("earn", earnSchema)
 
-module.exports = Spend
+module.exports = Earn

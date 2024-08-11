@@ -1,21 +1,21 @@
 const express = require("express")
-const Spend = require("../Model/spendModel")
+const Earn = require("../Model/earnModel")
 
-async function handlePostUserSpending(req, res){
+async function handlePostUserEarning(req, res){
     try{
-        if(!req.body || !req.body.amount || !req.body.spendType){
+        if(!req.body || !req.body.amount || !req.body.earnType){
             res.status(400).json({"errorMessage": "Provide all data"})
         }
-        const spend = await Spend.create({amount: req.body.amount, spendType: req.body.spendType, date: Date.now()})
-        res.status(200).json({"successMessage": "Inserted successfully", "data": spend})
+        const earn = await Earn.create({amount: req.body.amount, earnType: req.body.earnType, date: Date.now()})
+        res.status(200).json({"successMessage": "Inserted successfully", "data": earn})
     }catch(error){
         res.status(500).json({"errorMessage": error})
     }
 }
 
-async function handleGetUserSpending(req, res){
+async function handleGetUserEarning(){
     try{
-        const allTransactions = await Spend.find()
+        const allTransactions = await Earn.find()
         if(!allTransactions){
             return res.status(400).json({"errorMessage": "Not available"})
         }else{
@@ -27,6 +27,6 @@ async function handleGetUserSpending(req, res){
 }
 
 module.exports = {
-    handleGetUserSpending,
-    handlePostUserSpending
+    handleGetUserEarning,
+    handlePostUserEarning
 }
