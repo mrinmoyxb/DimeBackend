@@ -4,12 +4,14 @@ const User = require("../Model/userModel")
 
 //* signup
 async function handleUserSignUp(req, res){
+    console.log("t1")
     try{
-        if(!req.body || !req.name || !req.email || !req.password){
+        if(!req.body || !req.body.name || !req.body.email || !req.body.password){
+            console.log(req.body.name, req.body.email, req.body.password)
             return res.status(400).json({msg: "Enter all details"})
         }
         else{
-            const existingUserEmail = await User.find({email: req.body.email})
+            const existingUserEmail = await User.findOne({email: req.body.email})
             if(!existingUserEmail){
                 const hashPassword = await bcrypt.hash(req.body.password, 10)
                 const user = await User.create({
@@ -32,13 +34,13 @@ async function handleUserSignUp(req, res){
 //* login
 async function handleUserLogin(req, res){
     try{
-        if(!req.body || !req.email || !req.password){
+        if(!req.body || !req.body.email || !req.body.password){
             return res.status(400).json({msg: "Enter all details"})
         }
         else{
-            const existingUser = await User.find({email: req.body.email})
+            const existingUser = await User.findOne({email: req.body.email})
             if(existingUser){
-                const hashPasword = await bcrypt.compare(res.body.password, existingUser.password)
+                const hashPasword = await bcrypt.compare(req.body.password, existingUser.password)
                 if(hashPasword){
                     return res.status(200).json({msg:"Welcome"})
                 }
@@ -54,7 +56,19 @@ async function handleUserLogin(req, res){
     }
 }
 
+
+//! PRIVATE
+async function getAllUsers(){
+    try{
+        const allUsers = await User.find()
+        return res.status(200).json({msg: allUsers})
+    }catch(error){
+        return res.status(500).json({msg:"internal server error"})
+    }
+}
+
 module.exports = {
     handleUserSignUp,
-    handleUserLogin
+    handleUserLogin,
+    getAllUsers
 }
