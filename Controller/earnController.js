@@ -6,9 +6,9 @@ async function handlePostUserEarning(req, res){
         if(!req.body || !req.body.amount || !req.body.earnType){
             res.status(400).json({"msg": "Provide all data"})
         }
-        numOfDocs = Earn.countDocuments()
+        numOfDocs = await Earn.countDocuments()
         const earn = await Earn.create({earnId: numOfDocs+1, amount: req.body.amount, earnType: req.body.earnType, date: Date.now()})
-        res.status(200).json({"msg": earn, })
+        res.status(200).json({"msg": earn})
     }catch(error){
         res.status(500).json({"msg": error})
     }
