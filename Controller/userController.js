@@ -1,5 +1,8 @@
 const express = require("express")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
+
 const User = require("../Model/userModel")
 
 //* signup
@@ -42,6 +45,10 @@ async function handleUserLogin(req, res){
             if(existingUser){
                 const hashPasword = await bcrypt.compare(req.body.password, existingUser.password)
                 if(hashPasword){
+                    const accessToken = jwt.sign({userid: existingUser._id, email: existingUser.email}, process.env.ACCESS_TOKEN, {expiresIn: "30s"})
+                    const refreshToken = jwt.sign({userid: existingUser._id, email: existingUser.email}, process.env.REFRESH_TOKEN, {expiresIn: "30s"})
+                    const updateUser = await User.findOneAndUpdate({email: existingUser.email}, {$set: {refreshToken: refreshToken}})
+                    res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24*60*60*1000})
                     return res.status(200).json({msg:"Welcome"})
                 }
                 else{
@@ -58,7 +65,7 @@ async function handleUserLogin(req, res){
 
 
 //! PRIVATE
-async function getAllUsers(){
+async function getAllUsers(req, res){
     try{
         const allUsers = await User.find()
         return res.status(200).json({msg: allUsers})

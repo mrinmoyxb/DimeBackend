@@ -17,6 +17,9 @@ const userModel = mongoose.Schema({
     balance: {
         type: Number,
         required: true,
+    },
+    refreshToken: {
+        type: String
     }
 }, {timestamp: true})
 
