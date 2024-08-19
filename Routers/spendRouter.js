@@ -3,7 +3,7 @@ const {handlePostUserSpending, handleGetUserSpending} = require("../Controller/s
 
 const router = express.Router()
 
-router.route("/spend")
+router.route("/")
 .get(handleGetUserSpending)
 .post(handlePostUserSpending)
 

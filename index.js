@@ -17,8 +17,9 @@ connectMongoDB()
 .catch(()=>{console.log("MongoDB connection failed")})
 
 app.use(express.urlencoded({extended: false}))
-app.use("/api", spendRouter)
-app.use("/api", earnRouter)
+app.use(express.json())
+app.use("/api/spend", spendRouter)
+app.use("/api/earn", earnRouter)
 
 const sslServer = https.createServer({
     key: fs.readFileSync(path.join(__dirname, "Certificate", "key.pem")),

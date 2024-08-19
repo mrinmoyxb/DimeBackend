@@ -3,7 +3,7 @@ const {handleGetUserEarning, handlePostUserEarning} = require("../Controller/ear
 
 const router = express.Router()
 
-router.route("/earn")
+router.route("/")
 .get(handleGetUserEarning)
 .post(handlePostUserEarning)
 

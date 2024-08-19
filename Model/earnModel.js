@@ -2,6 +2,10 @@ const mongoose = require("mongoose")
 
 // Schema
 const earnSchema = new mongoose.Schema({
+    earnId: {
+        type: Number,
+        required: true
+    },
     amount: {
         type: Number,
         required: true
