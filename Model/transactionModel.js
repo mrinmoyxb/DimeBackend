@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const transactionModel = mongoose.Schema({
+const transactionModel = new mongoose.Schema({
     transactionId: {
         type: Number,
         required: true
