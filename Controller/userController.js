@@ -46,9 +46,11 @@ async function handleUserLogin(req, res){
                 const hashPasword = await bcrypt.compare(req.body.password, existingUser.password)
                 if(hashPasword){
                     const accessToken = jwt.sign({userid: existingUser._id, email: existingUser.email}, process.env.ACCESS_TOKEN, {expiresIn: "30s"})
-                    const refreshToken = jwt.sign({userid: existingUser._id, email: existingUser.email}, process.env.REFRESH_TOKEN, {expiresIn: "30s"})
+                    const refreshToken = jwt.sign({userid: existingUser._id, email: existingUser.email}, process.env.REFRESH_TOKEN)
                     const updateUser = await User.findOneAndUpdate({email: existingUser.email}, {$set: {refreshToken: refreshToken}})
-                    res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24*60*60*1000})
+                    
+                    res.cookie('JWT_TOKEN', refreshToken, {httpOnly: true, maxAge: 30*1000})
+                    console.log("Refresh: ", refreshToken)
                     return res.status(200).json({msg:"Welcome"})
                 }
                 else{

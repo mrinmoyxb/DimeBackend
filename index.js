@@ -23,11 +23,6 @@ app.use("/api", userRouter)
 app.use("/api/spend", spendRouter)
 app.use("/api/earn", earnRouter)
 
-const sslServer = https.createServer({
-    key: fs.readFileSync(path.join(__dirname, "Certificate", "key.pem")),
-    cert: fs.readFileSync(path.join(__dirname, "Certificate", "cert.pem"))
-}, app)
-
-sslServer.listen(process.env.PORT, ()=>{
-    console.log("https server is running in port", process.env.PORT)
+app.listen(process.env.PORT, ()=>{
+    console.log("Server is running on PORT: ", process.env.PORT)
 })
